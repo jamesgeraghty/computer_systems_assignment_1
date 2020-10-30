@@ -1,0 +1,189 @@
+#!/bin/bash
+# James Geraghty Student Number: 20022946
+
+# Menu Item
+
+main_menu()
+{
+  #a case statement is  used to create the menu for taking input from the user. This allows to eaily check patterns and then process the line commands.
+while :
+do
+	clear
+	echo " "
+	echo "====================================="
+	echo "            Main Menu "
+	echo "====================================="
+	echo "[1] Add a new user"
+	echo "[2] Remove a user"
+	echo "[3] Search a user"
+	echo "[4] List all users"
+	echo "[5] Email a user "
+        echo "[6] Exit the application"
+	echo "====================================="
+	echo "Enter your menu choice [1-6]: "
+        echo ""
+	read m_menu
+	
+	case "$m_menu" in # each case statment starts with the case keyword
+         #each option  select will activate the associated with the case statement 
+		1) option_1;;
+		2) option_2;;
+		3) option_3;;
+		4) option_4;;
+		5) option_5;;
+                6) exit 0;; # exit status  - the code will exit with the  '0@
+         	*)  # this acts a default and is executed if not other match is found
+                
+                 echo "Invalid selection!! Please Select an option from 1 to 6";
+		   echo "Press ENTER To Continue..." ;  #if the user does not enter the correct option they will no be allowed to proceed
+read ;; # the semicolon must be included at end of each line command. The shell executes all the statments up to the two semicolons that  are next to each other.
+	esac # the esac is required to indicate the end of the case statement 
+done
+}
+
+option_1()
+{
+ while : # while loop id used to take input from the user
+ do
+        echo -e  "\e[33m Please Enter a Name and Press [Enter]: "
+        read fullname
+        if [ "${fullname//[!0-9]}" ]; # if there are any number entered in the name, then the user is nor allowed to proceed and  they will have to 
+        # re enter a correct name
+        then
+        echo "Invalid entry. Please try again."
+        continue # the continue statement is used to resume the next iteration of the  enclosing while loop. This is used to to return to the top of the loop by skipping the rest of the commands in the loop.
+        else # if not then do the following below
+        break # the break in the case statement is used to exit the loop before its normal ending. 
+        fi
+        done
+  while :
+  do
+        echo "Enter a Phone Number : "
+        read phoneNumber
+        if [ "${phoneNumber//[!a-z]}" ]; # if there are any letters in the address then the user will be asked to re enter a correct  phone number
+        then
+        echo "\e[35m Please enter a valid phone number: "
+        continue  
+        else 
+        break
+        fi
+       done
+while :
+do
+        echo -e "\e[36m Enter Postal Address and press [Enter]: "
+        read address
+        if [ "$address" = " " ]; # if the there is nothing entered then the user will be asked to  enter a valid address.
+        then
+        echo "You have not entered anything, please enter a valid address."
+        continue
+        else
+        break
+        fi
+done
+  while :
+  do
+       echo "Enter Email Address and press : "
+       read email
+       if [[ $email != *"@"* ]];   #error checking that a correct email address is added. If the user does not enter an address that contain a @ 
+       # then they are assked to re enter a correct address
+       then
+       echo "The email address that you entered doesn't contain a '@', please enter a valid email."
+       continue
+       else
+       break
+       fi
+       done
+
+       echo "The details you entered are:" "Name:" $fullname,"Phone Nummber:" $phoneNumber,"Address:" $address, "Email Address:" $email # this displays all the details to the user before they are submitted , the used can then confirm
+                                                                                     # of delete the detail and start again.
+       echo -n " Are you sure you want to add these details? (yes/no)? " 
+       read word    
+       case $word in # read in the option type by the user
+       [yY] | [yY][Ee][Ss] )
+       echo "The the details will be added"
+       echo $fullname, $phoneNumber, $address, $email >> contactDetails.csv
+           ;;
+       [nN] | [n|N][O|o] )
+       echo "You are not sure the app will exit";
+       main_menu  # returns to the main menu 
+               ;;
+       *) echo "Invalid input"
+            ;;
+esac
+}
+option_2()
+{
+       echo "option 2"
+       echo "Remove a current user"
+       echo -e  "Type the name of the person that you want to remove and press[ENTER] "
+       read fullname
+       grep  -n -i "$fullname" contactDetails.csv # the grep command is used to search for the variable in the contactdetails file.grep searches for a specific pattern of characters within its input.
+                                                   # Using the (-i_ makes the search case insensitve.
+       echo "Please enter the Email Address of the user that you want to remove and Press [ENTER]"
+       read email
+       echo -n " Are you sure you want to delete $fullname (yes/no)? " 
+       read word    
+       case $word in
+       [yY] | [yY][Ee][Ss] )
+       echo "$fullname will be removed!!"
+       sed -i "/$email/d" contactDetails.csv # sed is usd to pring out the entore line of the contactDetails file,  d is used to  delete the entire line 
+                                              # in the file
+               ;;
+
+       [nN] | [n|N][O|o] )
+       echo "You are not sure the app will exit";
+       main_menu 
+                ;;
+       *) echo "Invalid input"
+            ;;
+esac
+}
+
+option_3()
+{
+       echo "option 3"
+       echo "Please enter the name of the person that you would like to search and Press [ENTER]"
+       echo " Enter the user name"
+       read fullname
+       grep  -n -i "$fullname" contactDetails.csv  # grep command is used here to find a user. 
+       read      echo -n " Would you like to search another user (yes/no)? " 
+       read word    
+       case $word in # reads in whatever option is typed
+       [yY] | [yY][Ee][Ss] ) # if the option entered is is Y or YES, then this triggers the next request 
+       echo "Type the name and Press [ENTER]"
+       read fullname
+       grep  -n -i "$fullname" contactDetails.csv
+       read                 
+           ;;
+       [nN] | [n|N][O|o] )
+       echo "You are not sure the app will exit";
+       main_menu 
+            ;;
+       *) echo "Invalid input"
+           ;;
+esac
+
+}
+option_4()
+{
+       echo "option 4"
+       echo "List all the current users"
+       awk '{print NR,$0}' contactDetails.csv # awk NR gives the total number of record in the file
+       read  #read prints out all the records
+       return">>"
+}
+
+option_5()
+{
+       echo "option 5"
+       echo  "Send an Email to: "
+       read fullname
+       emailaddr=`grep -ni "$fullname" contactDetails.csv | awk '{print $4}'`
+       mail $emailaddr
+read
+
+
+}
+
+       main_menu   #returns to the main menu 
+
