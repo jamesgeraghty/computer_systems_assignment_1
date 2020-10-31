@@ -51,7 +51,7 @@ option_1()
         if [ "${fullname//[!0-9]}" ]; # if there are any number entered in the name, then the user is nor allowed to proceed and  they will have to 
         # re enter a correct name
         then
-        echo "Invalid entry. Please try again."
+        echo "Please enter a valid name: "
         continue # the continue statement is used to resume the next iteration of the  enclosing while loop. This is used to to return to the top of the loop by skipping the rest of the commands in the loop.
         else # if not then do the following below
         break # the break in the case statement is used to exit the loop before its normal ending. 
@@ -149,14 +149,15 @@ option_3()
        echo "Please enter the name of the person that you would like to search and Press [ENTER]"
        echo " Enter the user name: "
        read fullname
-       grep  -n -i "$fullname" contactDetails.csv   # grep command is used here to find a user. 
-       echo -n " Would you like to search another user (yes/no)? " 
+       grep  -n -i "$fullname" contactDetails.csv   # grep command is used here to find a user. - n is used to print  the line number for 
+                                                    #user friendly  reading and -i removes all  case sensitivity  
+       echo " Would you like to search another user (yes/no)? " 
        read word    
        case $word in # reads in whatever option is typed
        [yY] | [yY][Ee][Ss] ) # if the option entered is is Y or YES, then this triggers the next request 
        echo "Type the name and Press [ENTER]"
        read fullname
-       grep  -n -i "$fullname" contactDetails.csv
+       grep  -n -i "$fullname" contactDetails.csv # the user can enter another name if they want  find someone else 
        read                 
            ;;
        [nN] | [n|N][O|o] )
@@ -179,9 +180,10 @@ option_4()
 option_5()
 {
        echo "option 5"
-       echo  "Send an Email to: "
+       echo  "Send an Email to: " #the user is requested to  type the name of who to send an email to 
        read fullname
-       emailaddr=`grep -ni "$fullname" contactDetails.csv | awk '{print $4}'`
+       emailaddr=`grep -ni "$fullname" contactDetails.csv | awk '{print $4}'` # grep is used to the find the person using the fullname variable
+                                                                              # awk  is used to filter  out the email  in the 4th column
        mail $emailaddr
 read
 
