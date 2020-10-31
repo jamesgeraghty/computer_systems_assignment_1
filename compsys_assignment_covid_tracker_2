@@ -33,7 +33,7 @@ do
 		4) option_4;;
 		5) option_5;;
                 6) exit 0;; # exit status  - the code will exit with the  '0@
-                *)  # this acts a default and is executed if not other match is found
+         	*)  # this acts a default and is executed if not other match is found
                 
                  echo "Invalid selection!! Please Select an option from 1 to 6";
 		   echo "Press ENTER To Continue..." ;  #if the user does not enter the correct option they will no be allowed to proceed
@@ -46,7 +46,7 @@ option_1()
 {
  while : # while loop id used to take input from the user
  do
-        echo -e "\e[33m Please Enter a Name: "
+        echo -e  "\e[33m Please Enter a Name and Press [Enter]: "
         read fullname
         if [ "${fullname//[!0-9]}" ]; # if there are any number entered in the name, then the user is nor allowed to proceed and  they will have to 
         # re enter a correct name
@@ -59,11 +59,11 @@ option_1()
         done
  while :
  do
-        echo -e "Enter a Phone Number : "
+        echo "Enter a Phone Number : "
         read phoneNumber
         if [ "${phoneNumber//[!a-z]}" ]; # if there are any letters in the address then the user will be asked to re enter a correct  phone number
         then
-        echo -e "\e[35m Please enter a valid phone number: "
+        echo "\e[35m Please enter a valid phone number: "
         continue  
         else 
         break
@@ -71,7 +71,7 @@ option_1()
        done
 while :
 do
-        echo -e "\e[36m Enter an address and press [Enter]: "
+        echo -e "\e[36m Enter Postal Address and press [Enter]: "
         read address
         if [ "$address" = " " ]; # if the there is nothing entered then the user will be asked to  enter a valid address.
         then
@@ -83,7 +83,7 @@ do
 done
   while :
   do
-       echo -e "Enter an email address: "
+       echo "Enter Email Address and press : "
        read email
        if [[ $email != *"@"* ]];   #error checking that a correct email address is added. If the user does not enter an address that contain a @ 
        # then they are assked to re enter a correct address
@@ -95,7 +95,7 @@ done
        fi
        done
 
-       echo "The details you entered are" "Name:" $fullname,"Phone Number:" $phoneNumber,"Address:" $address, "Email Address:" $email # this displays all the details to the user before they are submitted , the used can then confirm
+       echo "The details you entered are:" "Name:" $fullname,"Phone Nummber:" $phoneNumber,"Address:" $address, "Email Address:" $email # this displays all the details to the user before they are submitted , the used can then confirm
                                                                                      # of delete the detail and start again.
        echo -n " Are you sure you want to add these details? (yes/no)? " 
        read word    
@@ -120,8 +120,7 @@ option_2()
        read fullname
        grep  -n -i "$fullname" contactDetails.csv # the grep command is used to search for the variable in the contactdetails file.grep searches for a specific pattern of characters within its input.
                                                    # Using the (-i_ makes the search case insensitve.
-
-       echo "Please enter the Email Address of the user that you want to remove and Press [ENTER]" 
+       echo "Please enter the Email Address of the user that you want to remove and Press [ENTER]"
        read email
        echo -n " Are you sure you want to delete $fullname (yes/no)? " 
        read word    
@@ -138,8 +137,6 @@ option_2()
                 ;;
        *) echo "Invalid input"
             ;;
-
-
 esac
 }
 
@@ -147,7 +144,7 @@ option_3()
 {
        echo "option 3"
        echo "Please enter the name of the person that you would like to search and Press [ENTER]"
-       echo " Enter the user name: "
+       echo " Enter the user name"
        read fullname
        grep  -n -i "$fullname" contactDetails.csv   # grep command is used here to find a user. 
        echo -n " Would you like to search another user (yes/no)? " 
@@ -189,5 +186,4 @@ read
 }
 
        main_menu   #returns to the main menu 
-
 
